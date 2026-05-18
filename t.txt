@@ -1,0 +1,48 @@
+brotlicffi @ file:///home/task_176496126124857/conda-bld/brotlicffi_1764961326114/work
+certifi @ file:///home/task_177697098542695/croot/certifi_1776971111806/work/certifi
+cffi @ file:///home/task_176183214835616/conda-bld/cffi_1761832774688/work
+charset-normalizer @ file:///home/task_176174481524083/conda-bld/charset-normalizer_1761744828711/work
+contourpy @ file:///home/task_176364358039429/conda-bld/contourpy_1763643922278/work
+cycler @ file:///home/task_176606792703097/croot/cycler_1766067949602/work
+filelock @ file:///home/task_176943956686679/croot/filelock_1769440496215/work
+fonttools @ file:///home/task_177425645253092/croot/fonttools_1774256487913/work
+fsspec @ file:///home/task_177399629669182/croot/fsspec_1773996345510/work
+gmpy2 @ file:///home/task_176474799565698/conda-bld/gmpy2_1764748043526/work
+idna @ file:///home/task_176191175488988/conda-bld/idna_1761911981595/work
+Jinja2 @ file:///croot/jinja2_1741710844255/work
+kiwisolver @ file:///home/task_176415904289632/conda-bld/kiwisolver_1764159297891/work
+MarkupSafe @ file:///croot/markupsafe_1738584038848/work
+matplotlib==3.10.9
+mkl-service==2.5.2
+mkl_fft @ file:///home/task_177730042475029/croot/mkl_fft_1777300452816/work
+mkl_random @ file:///home/task_176159294306005/conda-bld/mkl_random_1761592958759/work
+mpmath @ file:///work/perseverance-python-buildout/croot/mpmath_1728396928682/work
+networkx @ file:///home/task_176537856615560/conda-bld/networkx_1765378627201/work
+numpy @ file:///home/task_177618877531279/croot/numpy_and_numpy_base_1776188800983/work/dist/numpy-2.4.4-cp313-cp313-linux_x86_64.whl#sha256=3ec6f5bc893d683d0469a4b4a8044db8990b4660b88adb417d519f9cb48a71df
+opencv-python==4.13.0
+opencv-python-headless==4.13.0
+optree @ file:///home/task_176544499493743/conda-bld/optree_1765445059354/work
+packaging==26.0
+pillow @ file:///home/task_177797437552937/croot/pillow_1777974430334/work
+polars @ file:///home/task_177382860706613/croot/polars-split_1773828856525/work
+polars-runtime-32 @ file:///home/task_177382860706613/croot/polars-split_1773828856525/work/polars-runtime-32
+psutil @ file:///home/task_176189641262472/conda-bld/psutil_1761896453586/work
+pycparser @ file:///home/task_177495969264897/croot/pycparser_1774959744365/work
+pyparsing @ file:///home/task_176397383618695/conda-bld/pyparsing_1763973847947/work
+PySocks @ file:///home/task_176175235884818/conda-bld/pysocks_1761753009495/work
+python-dateutil @ file:///work/perseverance-python-buildout/croot/python-dateutil_1728385355105/work
+pyttsx3==2.99
+PyYAML @ file:///home/task_176346502559590/conda-bld/pyyaml_1763465495783/work
+requests @ file:///home/task_177506603358355/croot/requests_1775066075144/work
+scipy @ file:///home/task_177627760599697/croot/scipy_1776277630451/work/dist/scipy-1.17.1-cp313-cp313-linux_x86_64.whl#sha256=01373e49b9bec0124225403a72b8a9bcace67ff8be342c91b070635234562dbe
+setuptools==82.0.1
+six @ file:///croot/six_1744271502820/work
+sympy @ file:///home/task_176476213567317/conda-bld/sympy_1764762917555/work
+torch @ file:///home/task_177771237582684/croot/libtorch_1777712423561/work
+torchvision @ file:///home/task_177730050049357/croot/torchvision_1777300558236/work
+triton @ file:///home/task_177494100300753/croot/triton_1774941052366/work
+typing_extensions @ file:///croot/typing_extensions_1756280817316/work
+ultralytics @ file:///home/task_177506618409857/croot/ultralytics_1775067032310/work
+ultralytics-thop @ file:///home/task_177261746769631/croot/ultralytics-thop_1772617502164/work
+urllib3 @ file:///home/task_177853569911435/croot/urllib3_1778536188907/work
+wheel==0.46.3
