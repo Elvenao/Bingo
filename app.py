@@ -10,19 +10,20 @@ import torch
 from procesarEntrada import procesar_entrada
 from torchvision import transforms as T
 import json
-import pyttsx3
 
 IMG_W, IMG_H = 64, 64
 
-
-
-
-
+def detectar_camaras():
+    disponibles = []
+    for i in range(10):
+        cap = cv2.VideoCapture(i)
+        if cap.isOpened():
+            disponibles.append(i)
+            cap.release()
+    return disponibles   
 
 class CameraApp:
-    def __init__(self, root):
-        self.findCardModel = YOLO("yolo/runs/obb/train12/weights/best.pt")
-        self.findCirclesModel = YOLO("detectCircles.pt")
+    def __init__(self, root, camara_index=0):
         self.root = root
         self.current_number = 0
         self.root.title("Recognize Bingo Cards")
@@ -31,10 +32,9 @@ class CameraApp:
         self.toggle_next = 0 #This select the next language next to the first one which is 0 (English)
         self.root.resizable(False, False)
         self.root.bind("<space>", self.key_capture)
-        self.cap = cv2.VideoCapture(0)
+        self.cap = cv2.VideoCapture(camara_index)
         self.output_dir = None
         self.device = self.get_device()
-        self.engine = pyttsx3.init()
         self.modelo = CNN_Numeros(num_clases=75).to(self.device)
         self.error_label_text = ""
         self.registered_players_text = "0 player(s) registered"
@@ -259,7 +259,9 @@ class CameraApp:
         self.called_numbers = []
 
         self.update_video()
-    
+
+ 
+        
     def toggle_language(self):
         if self.toggle_next < len(self.languages) - 1: self.toggle_next += 1
         else: self.toggle_next = 0
@@ -363,8 +365,8 @@ class CameraApp:
             cantidad = conteo_restantes[restantes]
             
             self.texto_restantes += (
-                f"{cantidad} {self.dictionary[self.toggle_next]["almost_winners"][0]}"
-                f"{self.dictionary[self.toggle_next]["almost_winners"][1]}{restantes} {self.dictionary[self.toggle_next]["almost_winners"][2]}"
+                f"{cantidad} {self.dictionary[self.toggle_next]['almost_winners'][0]}"
+                f"{self.dictionary[self.toggle_next]['almost_winners'][1]}{restantes} {self.dictionary[self.toggle_next]['almost_winners'][2]}"
             )
     def start_bingo(self):
         if not os.path.exists(self.registered_cards_file):
@@ -593,5 +595,30 @@ class CameraApp:
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = CameraApp(root)
-    root.mainloop()
+    root.withdraw()
+
+    camaras = detectar_camaras()
+
+    if not camaras:
+        import tkinter.messagebox as mb
+        mb.showerror("Error", "No se encontró ninguna cámara.")
+        root.destroy()
+    else:
+        if len(camaras) == 1:
+            camara_elegida = camaras[0]
+        else:
+            # Aquí el usuario elige, por ejemplo índice 0, 1, 2...
+            import tkinter.simpledialog as sd
+            eleccion = sd.askstring(
+                "Seleccionar cámara",
+                "Cámaras disponibles: " + str(camaras) + "\n\nEscribe el número:",
+                initialvalue=str(camaras[0])
+            )
+            try:
+                camara_elegida = int(eleccion)
+            except:
+                camara_elegida = camaras[0]
+
+        root.deiconify()
+        app = CameraApp(root, camara_elegida)
+        root.mainloop()

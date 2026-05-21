@@ -10,8 +10,6 @@ modelo_tarjeta = YOLO("best.pt")
 CONF_TARJETA = 0.70
 CONF_CIRCULOS = 0.50
 
-with open('dataset.json') as f:
-    data = json.load(f)
 #This method is for ordering the 
 def ordenar_esquinas(pts):
     # Ordenar: top-left, top-right, bottom-right, bottom-left
