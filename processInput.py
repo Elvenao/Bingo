@@ -5,13 +5,17 @@ from ultralytics import YOLO
 import os
 import json
 
-modelo_circulos = YOLO("detectCircles.pt")
-modelo_tarjeta = YOLO("best.pt")  
-CONF_TARJETA = 0.70
-CONF_CIRCULOS = 0.50
+#This model is for predicting the position of 
+#the bounding boxes for the circles 
+circlesModel = YOLO("detectCircles.pt")
+#This model is for predicting the position of
+#the bounding box for the card
+cardModel = YOLO("detectCard.pt")  
+CONF_CARD = 0.70
+CONF_CIRCLE = 0.50
 
 #This method is for ordering the 
-def ordenar_esquinas(pts):
+def order_corners(pts):
     # Ordenar: top-left, top-right, bottom-right, bottom-left
     rect = np.zeros((4, 2), dtype=np.float32)
     s = pts.sum(axis=1)
@@ -79,36 +83,36 @@ def orderPoints(result):
         
     return newList
 
-def procesar_entrada(entrada):
+def process_input(entrada):
 
     img = entrada
     
-    # Paso 1: detectar la tarjeta y su orientacion
-    res_tarjeta = modelo_tarjeta.predict(img, verbose=False)
+    # Step 1: Detect the card
+    res_card = cardModel.predict(img, verbose=False)
 
-    if len(res_tarjeta) == 0 or res_tarjeta[0].obb is None:
+    if len(res_card) == 0 or res_card[0].obb is None:
         return 0
 
-    r = res_tarjeta[0].obb
+    r = res_card[0].obb
 
     if len(r) == 0:
         return 0
-    conf_tarjeta = float(r.conf[0])
+    conf_card = float(r.conf[0])
 
-    # Confianza baja
-    if conf_tarjeta < CONF_TARJETA:
+    # Low confidence
+    if conf_card < CONF_CARD:
         return 0
 
     try:
 
-        # Obtener las 4 esquinas
-        esquinas = ordenar_esquinas(r.xyxyxyxy[0].cpu().numpy())
+        # Sort 4 corners
+        esquinas = order_corners(r.xyxyxyxy[0].cpu().numpy())
         
-        w = int(float(r.xywhr[0][2]))  # ancho real
-        h = int(float(r.xywhr[0][3]))  # alto real
+        w = int(float(r.xywhr[0][2]))  # actual width
+        h = int(float(r.xywhr[0][3]))  # actual height
         if w <= 0 or h <= 0:
             return 0
-        # Destino — rectángulo derecho
+
         dst = np.array([
             [0, 0],
             [w, 0],
@@ -116,7 +120,7 @@ def procesar_entrada(entrada):
             [0, h]
         ], dtype=np.float32)
 
-        # Transformación de perspectiva
+        # Perspective transformation
         M = cv2.getPerspectiveTransform(esquinas.astype(np.float32), dst)
         warped = cv2.warpPerspective(img, M, (w, h))
     except:
@@ -124,30 +128,31 @@ def procesar_entrada(entrada):
 
     warped_pil = Image.fromarray(cv2.cvtColor(warped, cv2.COLOR_BGR2RGB))
 
-    # Paso 2: detectar círculos sobre tarjeta corregida
-    res_circulos = modelo_circulos.predict(warped_pil, verbose=False)
+    # Step 2: Detect circles from the warped card
+    res_circles = circlesModel.predict(warped_pil, verbose=False)
 
-    if len(res_circulos) == 0:
+    if len(res_circles) == 0:
         return 0
 
-    boxes = res_circulos[0].boxes
+    boxes = res_circles[0].boxes
 
     if boxes is None:
         return 0
-
+    # If circles detected are different from 24
+    # return error
     if len(boxes) != 24:
         return 0
     confs = boxes.conf.cpu().numpy()
 
-    promedio = np.mean(confs)
+    av = np.mean(confs)
 
-    if promedio < CONF_CIRCULOS:
+    if av < CONF_CIRCLE:
         return 0
     for c in confs:
         if c < 0.30:
             return 0
     # Paso 2: ordenar
-    sorted_boxes = orderPoints(res_circulos)
+    sorted_boxes = orderPoints(res_circles)
 
     if sorted_boxes is None:
         return 0

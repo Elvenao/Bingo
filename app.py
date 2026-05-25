@@ -7,7 +7,7 @@ from tkinter import simpledialog
 from ultralytics import YOLO
 from cnn import CNN_Numeros
 import torch
-from procesarEntrada import procesar_entrada
+from processInput import process_input
 from torchvision import transforms as T
 import json
 
@@ -39,7 +39,7 @@ class CameraApp:
         self.error_label_text = ""
         self.registered_players_text = "0 player(s) registered"
         self.modelo.load_state_dict(
-            torch.load("modelo_cnn.pth",
+            torch.load("cnnModel.pth",
             map_location=self.device,
             weights_only=True)
         )
@@ -536,7 +536,7 @@ class CameraApp:
     def take_photo(self):
         ret, frame = self.cap.read()
         if ret:
-            crops = procesar_entrada(frame)
+            crops = process_input(frame)
             #Checks if no card or circle was detected
             if crops == 0:
                 self.current_error = "no_card_detected" 

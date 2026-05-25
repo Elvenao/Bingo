@@ -55,7 +55,7 @@ EPOCAS       = 30
 PATIENCE     = 10              # épocas sin mejora antes de detener
 SPLIT_VAL    = 0.2             # 20% validación
 SEMILLA      = 42
-MODELO_PATH  = "modelo_cnn.pth"
+MODELO_PATH  = "cnnModel.pth"  # define the name of the model
 
 
 # ─────────────────────────────────────────
