@@ -85,7 +85,7 @@ The system captures bingo cards using a camera.
 
 During this stage:
 
-* The card is detected automatically
+* The card is detected after pressing space bar
 * Every numbered circle is localized
 * Each circle is cropped individually
 * The CNN predicts the corresponding number
@@ -143,17 +143,14 @@ python app.py
 
 # 📸 Future Improvements
 
-* Multi-card simultaneous tracking
 * Improved CNN accuracy
 * Real-time number validation
-* Online multiplayer bingo
-* Statistics and game history
 * Better UI/UX design
 
 ---
 
 # 👨‍💻 Author
 
-Developed by Emilio Sosa
+Developed by Emilio Hernández Sosa
 
 GitHub: https://github.com/Elvenao
